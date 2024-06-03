@@ -71,7 +71,6 @@ final class TicketsOffersTableViewCell: UITableViewCell {
         priceLabel.attributedText = NSMutableAttributedString(string: formatedPrice + " ₽ >", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
         var timeString = ""
         timeRange.forEach(){ timeString += $0 + " "}
-        print(timeString)
         timeLabel.attributedText = NSMutableAttributedString(string: timeString, attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
         switch id {
         case 1:

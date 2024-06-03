@@ -7,6 +7,7 @@
 
 import UIKit
 extension TicketsModalViewController: UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+    private var allowedCharacters: String { return "ЙйЦцКкУуЕеНнГгШшЩщЗзХхъФфЫыВвАаПпРрОоЛлДдЖжЭэЁёЯяЧчСсМмИиТтьБбЮю-"}
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
@@ -20,6 +21,11 @@ extension TicketsModalViewController: UITableViewDelegate, UITableViewDataSource
             self.modalAction?(.selectedDirection(findDeparture.text ?? "Москва", findArrived.text ?? "Стамбул"))
             dismiss(animated: true)
         }
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string == "" { return true }
+        if allowedCharacters.contains(string)  { return true } else { return false }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

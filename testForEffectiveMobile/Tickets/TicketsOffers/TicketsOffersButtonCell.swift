@@ -33,6 +33,8 @@ final class TicketsOffersButtonCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     private func setupSubView(){
+        contentView.backgroundColor = UIColor(hex: "#2F3035")
+        contentView.layer.cornerRadius = 12 //50?
         contentView.addSubviews([titleLabel, buttonIcon])
     }
 

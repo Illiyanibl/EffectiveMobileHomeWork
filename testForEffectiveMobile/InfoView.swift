@@ -7,6 +7,7 @@
 
 import UIKit
 final class InfoView : UIView {
+    var action: (() -> Void)?
     lazy var infoLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "SFProDisplay-Semibold", size: 22)
@@ -28,8 +29,17 @@ final class InfoView : UIView {
     private func setupUI(){
         self.addSubviews([infoLabel])
         self.backgroundColor = UIColor(hex: "#2261BC")
+        setupGesture()
         setupConstraints()
 
+    }
+    private func setupGesture(){
+        let tapView = UITapGestureRecognizer(target: self, action: #selector(tapViewClose))
+        self.addGestureRecognizer(tapView)
+    }
+
+    @objc func tapViewClose(){
+        self.action?()
     }
 
     private func setupConstraints(){

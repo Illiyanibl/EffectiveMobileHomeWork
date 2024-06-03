@@ -12,6 +12,7 @@ final class TicketsViewController: UIViewController {
     private (set) var ticketsViewModel: TicketsViewModelOutput = TicketsMainViewModel()
     private (set) var  offers: [Offers] = []
     var mainAction : ((MainActionCases) -> Void)?
+    var fromCity: String?
 
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
@@ -151,6 +152,7 @@ final class TicketsViewController: UIViewController {
     override func viewDidLoad() {
         setupUI()
         setupGesture()
+        setupData()
         bindTicketsViewModel()
         ticketsViewModel.changeStateIfNeeded()
     }
@@ -161,6 +163,10 @@ final class TicketsViewController: UIViewController {
         backView.addSubviews([findTicketstView])
         view.addSubviews([titleLabel, backView, subTitleLabel, ticketsCollection])
         setupConstraints()
+    }
+
+    private func setupData(){
+        fromCity != nil ? findDeparture.text = fromCity : ()
     }
 
     private func setupGesture(){

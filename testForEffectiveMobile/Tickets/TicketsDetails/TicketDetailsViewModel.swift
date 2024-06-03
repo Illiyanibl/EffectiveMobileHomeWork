@@ -32,7 +32,7 @@ final class TicketDetailsViewModel: TicketsDetailsViewModelOutput {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         return formatter
     }()
-
+    
     func changeStateIfNeeded(){
         state = .loading
         service.getOffers(){ [weak self] result in
@@ -48,16 +48,16 @@ final class TicketDetailsViewModel: TicketsDetailsViewModelOutput {
             }
         }
     }
-
+    
     func timeСalculation( tickets: inout [Tickets]) {
         tickets.enumerated().forEach(){ index, element in
-                let departureDate = self.dateFormatter.date(from: element.departure.date)
-                let arrivalDate = self.dateFormatter.date(from: element.arrival.date)
-                guard let departureDate, let arrivalDate else { return }
-                let timeInterval = arrivalDate.timeIntervalSince(departureDate)
-                tickets[index].timeInterval =  String(format:"%.1f", timeInterval / 3600)
-                tickets[index].departureTime = departureDate
-                tickets[index].arrivalTime = arrivalDate
+            let departureDate = self.dateFormatter.date(from: element.departure.date)
+            let arrivalDate = self.dateFormatter.date(from: element.arrival.date)
+            guard let departureDate, let arrivalDate else { return }
+            let timeInterval = arrivalDate.timeIntervalSince(departureDate)
+            tickets[index].timeInterval =  String(format:"%.1f", timeInterval / 3600)
+            tickets[index].departureTime = departureDate
+            tickets[index].arrivalTime = arrivalDate
         }
     }
 }

@@ -27,7 +27,7 @@ final class TicketsModalViewController: UIViewController {
         view.layer.cornerRadius = 16
         return view
     }()
-    
+
     lazy var findViewGroup: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -115,8 +115,112 @@ final class TicketsModalViewController: UIViewController {
 
     lazy var shortcutsView: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
         return view
+    }()
+
+    lazy var routeButton: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#3A633B")
+        view.layer.cornerRadius = 8
+        view.frame = CGRect(x: 0, y: 0, width: 48, height: 48)
+        var icon = UIView()
+        icon.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        icon.center = view.center
+        let backgraung = UIImage(named: "route")
+        guard let backgraung else { return view}
+        icon.layer.contents = backgraung.cgImage
+        view.addSubview(icon)
+        return view
+    }()
+
+    lazy var routeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "SFProDisplay-Regular", size: 14)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.01
+        paragraphStyle.alignment = .center
+        label.attributedText = NSMutableAttributedString(string: "Сложный маршрут", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        return label
+    }()
+
+    lazy var allPointButton: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#2261BC")
+        view.layer.cornerRadius = 8
+        view.frame = CGRect(x: 0, y: 0, width: 48, height: 48)
+        var icon = UIView()
+        icon.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        icon.center = view.center
+        let backgraung = UIImage(named: "allPoint")
+        guard let backgraung else { return view}
+        icon.layer.contents = backgraung.cgImage
+        view.addSubview(icon)
+        return view
+    }()
+
+    lazy var allPointLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "SFProDisplay-Regular", size: 14)
+        let paragraphStyle = NSMutableParagraphStyle()
+        label.numberOfLines = 1
+        paragraphStyle.lineHeightMultiple = 1.01
+        paragraphStyle.alignment = .center
+        label.attributedText = NSMutableAttributedString(string: "Куда угодно", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        return label
+    }()
+
+    lazy var weekendButton: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#00427D")
+        view.layer.cornerRadius = 8
+        view.frame = CGRect(x: 0, y: 0, width: 48, height: 48)
+        var icon = UIView()
+        icon.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        icon.center = view.center
+        let backgraung = UIImage(named: "weekend")
+        guard let backgraung else { return view}
+        icon.layer.contents = backgraung.cgImage
+        view.addSubview(icon)
+        return view
+    }()
+
+    lazy var weekendLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "SFProDisplay-Regular", size: 14)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.01
+        paragraphStyle.alignment = .center
+        label.attributedText = NSMutableAttributedString(string: "Выходные", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        return label
+    }()
+
+    lazy var lastMinuteButton: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#FF5E5E")
+        view.layer.cornerRadius = 8
+        view.frame = CGRect(x: 0, y: 0, width: 48, height: 48)
+        var icon = UIView()
+        icon.frame = CGRect(x: 0, y: 0, width: 20, height: 25)
+        icon.center = view.center
+        let backgraung = UIImage(named: "fire")
+        guard let backgraung else { return view}
+        icon.layer.contents = backgraung.cgImage
+        view.addSubview(icon)
+        return view
+    }()
+
+    lazy var lastMinuteLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "SFProDisplay-Regular", size: 14)
+        let paragraphStyle = NSMutableParagraphStyle()
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        paragraphStyle.lineHeightMultiple = 1.01
+        paragraphStyle.alignment = .center
+        label.attributedText = NSMutableAttributedString(string: "Горячие билеты", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        return label
     }()
 
     lazy var popularPlacesTableView: UIView = {
@@ -168,6 +272,7 @@ final class TicketsModalViewController: UIViewController {
         bottomFindViewGroup.addArrangedSubviews([botomSeparatorView, findArrived])
         findViewGroup.addArrangedSubviews([topFindViewGroup, separatorView, bottomFindViewGroup])
         findTicketstView.addSubviews([findViewGroup, iconDeparture, iconArrived, iconClose])
+        shortcutsView.addSubviews([routeButton, routeLabel, allPointButton, allPointLabel, weekendButton, weekendLabel, lastMinuteButton, lastMinuteLabel])
         popularPlacesTableView.addSubviews([popularPlacesTable])
         view.addSubviews([findTicketstView, shortcutsView, popularPlacesTableView])
     }
@@ -175,13 +280,32 @@ final class TicketsModalViewController: UIViewController {
     private func setupGesture(){
         let tapIconCloseGesture = UITapGestureRecognizer(target: self, action: #selector(tapIconClose))
         iconClose.addGestureRecognizer(tapIconCloseGesture)
+
+        let tapRoute = UITapGestureRecognizer(target: self, action: #selector(emptyView))
+        routeButton.addGestureRecognizer(tapRoute)
+        let tapWeekend = UITapGestureRecognizer(target: self, action: #selector(emptyView))
+        weekendButton.addGestureRecognizer(tapWeekend)
+        let tapLastMinute = UITapGestureRecognizer(target: self, action: #selector(emptyView))
+        lastMinuteButton.addGestureRecognizer(tapLastMinute)
+
+        let tapAllPointButton = UITapGestureRecognizer(target: self, action: #selector(tapAllPoint))
+        allPointButton.addGestureRecognizer(tapAllPointButton )
     }
 
     @objc func tapIconClose(){
         findArrived.text = ""
     }
 
+    @objc func emptyView(){
+        self.modalAction?(.tapEmptyView)
+    }
+
+    @objc func tapAllPoint(){
+        findArrived.text = "Куда угодно"
+    }
+
     private func setupConstraints(){
+        let buttonHeight: CGFloat = 48
         let ticketsModalViewControllerConstraints = ([
             findTicketstView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             findTicketstView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -217,7 +341,41 @@ final class TicketsModalViewController: UIViewController {
             shortcutsView.topAnchor.constraint(equalTo: view.topAnchor, constant: 168),
             shortcutsView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             shortcutsView.heightAnchor.constraint(equalToConstant: 90),
-            
+
+            routeButton.widthAnchor.constraint(equalToConstant: buttonHeight),
+            routeButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+            routeButton.topAnchor.constraint(equalTo: shortcutsView.topAnchor),
+            routeButton.leadingAnchor.constraint(equalTo: shortcutsView.leadingAnchor, constant: 8),
+
+            routeLabel.topAnchor.constraint(equalTo: routeButton.bottomAnchor, constant: 0),
+            routeLabel.leadingAnchor.constraint(equalTo: routeButton.leadingAnchor, constant: -6),
+            routeLabel.trailingAnchor.constraint(equalTo: routeButton.trailingAnchor, constant: 6),
+
+            allPointButton.widthAnchor.constraint(equalToConstant: buttonHeight),
+            allPointButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+            allPointButton.topAnchor.constraint(equalTo: shortcutsView.topAnchor),
+            allPointButton.trailingAnchor.constraint(equalTo: shortcutsView.centerXAnchor, constant: -32),
+
+            allPointLabel.topAnchor.constraint(equalTo: allPointButton.bottomAnchor, constant: 0),
+            allPointLabel.centerXAnchor.constraint(equalTo: allPointButton.centerXAnchor),
+
+            weekendButton.widthAnchor.constraint(equalToConstant: buttonHeight),
+            weekendButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+            weekendButton.topAnchor.constraint(equalTo: shortcutsView.topAnchor),
+            weekendButton.leadingAnchor.constraint(equalTo: shortcutsView.centerXAnchor, constant: 32),
+
+            weekendLabel.topAnchor.constraint(equalTo: weekendButton.bottomAnchor),
+            weekendLabel.centerXAnchor.constraint(equalTo: weekendButton.centerXAnchor),
+
+            lastMinuteButton.widthAnchor.constraint(equalToConstant: buttonHeight),
+            lastMinuteButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+            lastMinuteButton.topAnchor.constraint(equalTo: shortcutsView.topAnchor, constant: 0),
+            lastMinuteButton.trailingAnchor.constraint(equalTo: shortcutsView.trailingAnchor, constant: -8),
+
+            lastMinuteLabel.topAnchor.constraint(equalTo: lastMinuteButton.bottomAnchor),
+            lastMinuteLabel.leadingAnchor.constraint(equalTo: lastMinuteButton.leadingAnchor, constant: -6),
+            lastMinuteLabel.trailingAnchor.constraint(equalTo: lastMinuteButton.trailingAnchor, constant: 6),
+
             popularPlacesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             popularPlacesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             popularPlacesTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 284),
@@ -227,8 +385,6 @@ final class TicketsModalViewController: UIViewController {
             popularPlacesTable.trailingAnchor.constraint(equalTo: popularPlacesTableView.trailingAnchor, constant: -16),
             popularPlacesTable.topAnchor.constraint(equalTo: popularPlacesTableView.topAnchor, constant: 16),
             popularPlacesTable.bottomAnchor.constraint(equalTo: popularPlacesTableView.bottomAnchor),
-
-
         ])
         NSLayoutConstraint.activate(ticketsModalViewControllerConstraints)
     }

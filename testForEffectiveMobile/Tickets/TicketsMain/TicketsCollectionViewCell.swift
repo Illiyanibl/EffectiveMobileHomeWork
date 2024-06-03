@@ -42,8 +42,6 @@ final class TicketsCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-
-
     lazy var airplaneIcon: UIView = {
         let view = UIView()
         let backgraung = UIImage(named: "airplane1")
